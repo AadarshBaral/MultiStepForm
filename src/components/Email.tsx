@@ -5,23 +5,30 @@ type Inputs = {
     email: string
 }
 export default function Email() {
+
+
+    let email = localStorage.getItem("email")
+
     let { step, setStep } = useAppContext()
     const handlePrev = (): void => {
         step > 0 ? setStep(step -= 1) : "";
     }
     const handlePrevDisabled = (): boolean => {
-        console.log(step)
         return step === 1;
     }
     const {
         register,
         handleSubmit,
-        watch,
+        // watch,
         formState: { errors },
     } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = (data) => setStep(step + 1);
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        localStorage.setItem('email', data.email);
 
-    console.log(watch("email")) // watch input value by passing the name of it
+        setStep(step + 1)
+    }
+
+    // console.log(watch("email")) // watch input value by passing the name of it
 
     return (
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -29,11 +36,11 @@ export default function Email() {
             <p className='formHeading' >Your Email</p>
             {/* register your input into the hook by invoking the "register" function */}
             <label htmlFor="">Email Here</label>
-            <input type="email" defaultValue="" {...register("email")} />
+            <input className={errors.email ? "error" : ""} type="text" defaultValue={email ? email : ""} {...register("email", { required: true, pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g })} />
 
             {/* include validation with required or other standard HTML validation rules */}
             {/* errors will return when field validation fails  */}
-            {/* {errors.lastName && <span>This field is required</span>} */}
+            {/* {errors.email && <span>This field is required</span>} */}
 
             <input type="submit" value="Continue" />
             {handlePrevDisabled() ? "" : (<input disabled={handlePrevDisabled()} className='input_btn' type='submit' value='Previous' onClick={handlePrev} />)}

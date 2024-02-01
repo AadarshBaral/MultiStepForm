@@ -14,6 +14,9 @@ type Inputs = {
 }
 
 function NameAuth() {
+
+
+
     let { step, setStep } = useAppContext()
 
     // const handleNext = () => {
@@ -32,9 +35,7 @@ function NameAuth() {
     //     return step === 3;
     // }
 
-    console.log(step)
     // let step: number = 1;
-
     function renderSwitch() {
         switch (step) {
             case 1:
@@ -44,22 +45,16 @@ function NameAuth() {
                 return <Email />;
             case 3:
                 return <Password />;
-
         }
     }
-
-
-
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<auth> = (data) => console.log(data)
-
-    console.log(watch("firstName")) // watch input value by passing the name of it
-    console.log(watch("lastName")) // watch input value by passing the name of it
+    const onSubmit: SubmitHandler<auth> = () => { }
+    // watch input value by passing the name of it
     return (
         <>
             <div className="container">
@@ -93,24 +88,10 @@ function NameAuth() {
                     </div>
                     <div className="right">
                         <div className="loginform">
-
-
-                            {/* <Name /> */}
                             {renderSwitch()}
-
-
-                            {/* {handleNextDisabled() ? "" : (<input className='input_btn' type="submit" value="Continue" onClick={handleNext} />)}
-
-
-                            
-
-                                {step === 3 ? (<input className='input_btn' type="submit" value="Submit" />) : ""} */}
 
                         </div>
                     </div>
-
-                    {/* <p className="heading-container">Lets start with your name first</p> */}
-
                 </div>
 
             </div>

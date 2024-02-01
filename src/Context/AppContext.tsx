@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { createContext } from "react";
 
 export interface stepType {
-
     step: number;
     setStep: React.Dispatch<React.SetStateAction<number>>
 }

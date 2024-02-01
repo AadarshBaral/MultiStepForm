@@ -95,6 +95,7 @@ body {
     width: 70%;
     margin-left: 30px;
     margin-top: 50px;
+    position: relative;
 
   }
 }
@@ -115,7 +116,8 @@ input[type=password] {
   ;
 }
 
-input[type=submit] {
+input[type=submit],
+.finalSubmit {
   margin-top: 20px;
   ;
   width: 100px;
@@ -135,4 +137,22 @@ input[type=submit] {
 
 input {
   border: 1px solid rgb(128, 0, 94);
+
+}
+
+input:focus {
+  outline: none;
+}
+
+
+.submit-green {
+  position: absolute;
+  background: green !important;
+  bottom: 0;
+  left: 110px;
+
+}
+
+.error {
+  border: 3px solid red;
 }

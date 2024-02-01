@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useAppContext } from "../Context/AppContext"
+import SendData from "./SendData";
 type Inputs = {
     password: string
 
@@ -7,12 +8,19 @@ type Inputs = {
 
 export default function Password() {
 
+    // let password = ""
+    // if (localStorage.getItem("password")) {
+    //     let { password } = JSON.parse(localStorage.getItem("password"));
+
+    // }
+    let email = localStorage.getItem("email")
+
+    let password = localStorage.getItem("password");
     let { step, setStep } = useAppContext()
     const handlePrev = (): void => {
         step > 0 ? setStep(step -= 1) : "";
     }
     const handlePrevDisabled = (): boolean => {
-        console.log(step)
         return step === 1;
     }
     const {
@@ -21,8 +29,11 @@ export default function Password() {
         watch,
         formState: { errors },
     } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = (data) => setStep(step - 1)
-    console.log(watch("password")) // watch input value by passing the name of it
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        localStorage.setItem('password', data.password);
+
+    }
+    // console.log(watch("password")) // watch input value by passing the name of it
 
     return (
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -37,8 +48,13 @@ export default function Password() {
             {/* errors will return when field validation fails  */}
             {/* {errors.lastName && <span>This field is required</span>} */}
 
-            <input type="submit" />
+            {/* <input type="submit" /> */}
             {handlePrevDisabled() ? "" : (<input disabled={handlePrevDisabled()} className='input_btn' type='submit' value='Previous' onClick={handlePrev} />)}
+
+            {step === 3 ? (
+                <SendData />
+
+            ) : ""}
         </form>
     )
 }

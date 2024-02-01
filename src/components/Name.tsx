@@ -6,31 +6,45 @@ type Inputs = {
 }
 
 export default function Name() {
+
+    // let firstName = ""
+    // let lastName = ""
+    // if (localStorage.getItem("name")) {
+    //     let { firstName, lastName } = JSON.parse(localStorage.getItem("name"));
+    //     console.log("ok")
+    // } else {
+    //     let firstName = ""; let lastName = "";
+    // }
+    let firstName = localStorage.getItem("firstName")
+    let lastName = localStorage.getItem("lastName")
+
     const { step, setStep } = useAppContext()
     const {
         register,
         handleSubmit,
-        watch,
+
         formState: { errors },
     } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = (data) => setStep(step + 1)
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
 
-    console.log(watch("firstName")) // watch input value by passing the name of it
+        localStorage.setItem("firstName", data.firstName)
+        localStorage.setItem("lastName", data.lastName)
+        setStep(step + 1)
+    }
+    // console.log(watch("firstName")) // watch input value by passing the name of it
 
     return (
-        /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
+
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
             <p className='formHeading' >Personal Information</p>
-            {/* register your input into the hook by invoking the "register" function */}
-            <label htmlFor="">First Name</label>
-            <input type="text" defaultValue="" {...register("firstName")} />
 
-            {/* include validation with required or other standard HTML validation rules */}
+            <label>First Name</label>
+            <input className={errors.firstName ? "error" : ""} type="text" defaultValue={firstName ? firstName : ""} {...register("firstName", { required: true })} />
             <label htmlFor="">Last Name Name</label>
-            <input type="text" {...register("lastName", { required: true })} />
-            {/* errors will return when field validation fails  */}
+            <input className={errors.lastName ? "error" : ""} defaultValue={lastName ? lastName : ""} type="text" {...register("lastName", { required: true })} />
+            {/* errors will return when field validation fails */}
             {/* {errors.lastName && <span>This field is required</span>} */}
-
+            <br />
             <input type="submit" value="Continue" />
         </form>
     )
